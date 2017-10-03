@@ -43,9 +43,11 @@ class resample:
             for row in range(output_image.shape[1]):
                 mappedcol = round(col*heightratio)
                 mappedrow = round(row*widthratio)
-                if output_image[col,row] == 254:
-                    output_image[col,row] = 253
-                    output_image[col,row] = image[mappedcol,mappedrow]
+                if mappedcol == height:
+                    mappedcol = height-1
+                if mappedrow == width:
+                    mappedrow = height-1
+                output_image[col,row] = image[mappedcol,mappedrow]
 
 
         return output_image
