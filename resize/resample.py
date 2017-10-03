@@ -4,7 +4,7 @@ class resample:
         """calls the appropriate funciton to resample an image based on the interpolation method
         image: the image to be resampled
         fx: scale along x direction (eg. 0.5, 1.5, 2.5)
-        fx: scale along y direction (eg. 0.5, 1.5, 2.5)
+        fy: scale along y direction (eg. 0.5, 1.5, 2.5)
         interpolation: method used for interpolation ('either bilinear or nearest_neighbor)
         returns a resized image based on the interpolation method
         """
@@ -25,7 +25,10 @@ class resample:
 
         #Write your code for nearest neighbor interpolation here
 
-        return image
+        output_image = image.copy()
+        output_image = cv2.resize(image, (0,0), self.fx=fx, self.fy=fy,interpolation=cv2.INTER_NEAREST)
+
+        return output_image
 
 
     def bilinear_interpolation(self, image, fx, fy):
@@ -37,6 +40,6 @@ class resample:
         """
 
         # Write your code for bilinear interpolation here
-
+        output_image = image.copy()
+        output_image = cv2.resize(image, (0,0), self.fx=fx, self.fy=fy, interpolation=cv2.INTER_LINEAR)
         return image
-
