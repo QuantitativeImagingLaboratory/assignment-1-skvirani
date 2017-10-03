@@ -27,23 +27,26 @@ class resample:
 
         #Write your code for nearest neighbor interpolation here
         # output_image = cv2.resize(image, (0,0), fx=self.fx, fy=self.fy,interpolation=cv2.INTER_NEAREST)
-
-        newheight = int(image.shape[0]*fy)
-        newwidth = int(image.shape[1]*fx)
-        height = int(image.shape[0])
-        width = int(image.shape[1])
+        (height, width) = image.shape
+        newheight = height * float(fy)
+        newwidth = width * float(fx)
         heightratio = height/newheight
         widthratio = width/newwidth
 
-        output_image = np.ones((newheight,newwidth), np.uint8)*255
+        output_image = np.ones((int(newheight),int(newwidth)), np.uint8)*255
+        print(output_image.shape)
+        print(image.shape)
 
-        #use round after applying the ratios
+        #use round after applying th# e ratios
         #get intensity of the old pixels and set to new pixels
         for col in range(output_image.shape[0]):
             for row in range(output_image.shape[1]):
                 mappedcol = round(col*heightratio)
                 mappedrow = round(row*widthratio)
-                output_image[col,row] = image[mappedcol,mappedrow]
+                if output_image[col,row] == 254:
+                    output_image[col,row] = 253
+                    output_image[col,row] = image[mappedcol,mappedrow]
+
 
         return output_image
 
