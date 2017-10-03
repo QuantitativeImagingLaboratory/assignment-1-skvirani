@@ -1,3 +1,5 @@
+import numpy as np
+
 class resample:
 
     def resize(self, image, fx = None, fy = None, interpolation = None):
@@ -24,6 +26,8 @@ class resample:
         """
 
         #Write your code for nearest neighbor interpolation here
+        # output_image = cv2.resize(image, (0,0), fx=self.fx, fy=self.fy,interpolation=cv2.INTER_NEAREST)
+
         newheight = int(image.shape[0]*fy)
         newwidth = int(image.shape[1]*fx)
         height = int(image.shape[0])
@@ -33,14 +37,13 @@ class resample:
 
         output_image = np.ones((newheight,newwidth), np.uint8)*255
 
-        #output_image = cv2.resize(image, (0,0), fx=self.fx, fy=self.fy,interpolation=cv2.INTER_NEAREST)
-
         #use round after applying the ratios
         #get intensity of the old pixels and set to new pixels
         for col in range(output_image.shape[0]):
             for row in range(output_image.shape[1]):
-                output_image = np.ones((col*fy,row*fx), npuint8)*255
-                if output_image
+                mappedcol = round(col*heightratio)
+                mappedrow = round(row*widthratio)
+                output_image[col,row] = image[mappedcol,mappedrow]
 
         return output_image
 
@@ -54,6 +57,5 @@ class resample:
         """
 
         # Write your code for bilinear interpolation here
-        output_image = image.copy()
         output_image = cv2.resize(image, (0,0), fx=self.fx, fy=self.fy, interpolation=cv2.INTER_LINEAR)
-        return image
+        return output_image
