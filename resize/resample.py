@@ -25,8 +25,13 @@ class resample:
 
         #Write your code for nearest neighbor interpolation here
 
-        output_image = image.copy()
-        output_image = cv2.resize(image, (0,0), self.fx=fx, self.fy=fy,interpolation=cv2.INTER_NEAREST)
+        output_image = np.ones((), np.uint8)*255
+
+        #output_image = cv2.resize(image, (0,0), fx=self.fx, fy=self.fy,interpolation=cv2.INTER_NEAREST)
+
+        for row in range(image.shape[0]):
+            for col in range(image.shape[1]):
+                output_image = np.ones((row,col), npuint8)*125
 
         return output_image
 
@@ -41,5 +46,5 @@ class resample:
 
         # Write your code for bilinear interpolation here
         output_image = image.copy()
-        output_image = cv2.resize(image, (0,0), self.fx=fx, self.fy=fy, interpolation=cv2.INTER_LINEAR)
+        output_image = cv2.resize(image, (0,0), fx=self.fx, fy=self.fy, interpolation=cv2.INTER_LINEAR)
         return image
