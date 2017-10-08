@@ -34,10 +34,10 @@ class resample:
         widthratio = width/newwidth
 
         output_image = np.ones((int(newheight),int(newwidth)), np.uint8)*255
-        print(output_image.shape)
-        print(image.shape)
+        #print(output_image.shape)
+        #print(image.shape)
 
-        #use round after applying th# e ratios
+        #use round after applying the ratios
         #get intensity of the old pixels and set to new pixels
         for col in range(output_image.shape[0]):
             for row in range(output_image.shape[1]):
@@ -46,7 +46,7 @@ class resample:
                 if mappedcol == height:
                     mappedcol = height-1
                 if mappedrow == width:
-                    mappedrow = height-1
+                    mappedrow = width-1
                 output_image[col,row] = image[mappedcol,mappedrow]
 
 
@@ -62,5 +62,22 @@ class resample:
         """
 
         # Write your code for bilinear interpolation here
-        output_image = cv2.resize(image, (0,0), fx=self.fx, fy=self.fy, interpolation=cv2.INTER_LINEAR)
-        return output_image
+        (height, width) = image.shape
+        newh = height * float(fy)
+        neww = width * float(fx)
+        hratio = height/newh
+        wratio = width/neww
+
+        output = np.ones((int(newh),int(neww)), np.uint8)*255
+
+        for col in range(output.shape[0]):
+            for row in range(output.shape[1]):
+                mappedcol = col*hratio
+                mappedrow = row*wratio
+                if mappedcol == height:
+                    mappedcol = height - 1
+                if mappedrow == width:
+                    mappedrow = width - 1
+                output[col,row] = image[int(mappedcol),int(mappedrow)]
+
+        return output
