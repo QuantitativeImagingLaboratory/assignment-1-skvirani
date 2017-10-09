@@ -9,8 +9,12 @@ class interpolation:
         return the f(unknown) or intentity at unknown"""
 
         #Write your code for linear interpolation here
+        #pt1,pt2,unknown hold two pieces of data, first we have the coordinate and second we have the intensity of the pixel
+        #returns the intensity of the pixel
+        #formula from lecture notes of linear interpolation
+        unknown[1] = (pt1[1]*(pt2[0]-unknown[0]))/(pt2[0]-pt1[0]) + (pt2[1]*(unknown[0]-pt1[0]))/(pt2[0]-pt1[0])
 
-        return 0
+        return unknown[1]
 
     def bilinear_interpolation(self, pt1, pt2, pt3, pt4, unknown):
         """Computes the linear interpolation for the unknown values using pt1 and pt2
@@ -24,5 +28,10 @@ class interpolation:
 
         # Write your code for bilinear interpolation here
         # May be you can reuse or call linear interpolatio method to compute this task
+        #pt1,pt2,pt3,pt4,unknown hold 3 pieces of data, first/second we have the coordinates and last we have the intensity of the pixel
+        #returns the intensity of the unknown pixel
 
-        return 0
+        R1 = self.linear_interpolation((pt1[0],pt1[2]),(pt3[0],pt3[2]),(unknown[0],unknown[2]))
+        R2 = self.linear_interpolation((pt2[0],pt2[2]),(pt4[0],pt4[2]),(unknown[0],unknown[2]))
+        P = self.linear_interpolation((pt1[1],R1),(pt2[1],R2),(unknown[1],unknown[2]))
+        return P

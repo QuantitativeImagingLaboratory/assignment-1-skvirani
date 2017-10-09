@@ -1,4 +1,6 @@
 import numpy as np
+import math
+
 
 class resample:
 
@@ -60,7 +62,8 @@ class resample:
         fx: scale along y direction (eg. 0.5, 1.5, 2.5)
         returns a resized image based on the bilinear interpolation method
         """
-
+        from . import interpolation as inter
+        bi = inter.interpolation()
         # Write your code for bilinear interpolation here
         (height, width) = image.shape
         newh = height * float(fy)
@@ -69,15 +72,32 @@ class resample:
         wratio = width/neww
 
         output = np.ones((int(newh),int(neww)), np.uint8)*255
-
         for col in range(output.shape[0]):
-            for row in range(output.shape[1]):
-                mappedcol = col*hratio
-                mappedrow = row*wratio
-                if mappedcol == height:
-                    mappedcol = height - 1
-                if mappedrow == width:
-                    mappedrow = width - 1
-                output[col,row] = image[int(mappedcol),int(mappedrow)]
+            for row in range(output .shape[1]):
+                mapcol = col * hratio
+                maprow = row * wratio
+                x1 = math.floor(hratio)
+                x2 = math.ceil(hratio)
+                y1 = math.floor(wratio)
+                y2 = math.ceil(wratio)
+
+                if x1 == mapcol:
+                    x1 = x1 - 1
+                if x2 == mapcol:
+                    x2 = x2 - 1
+                if y1 == maprow:
+                    y1 = y1 - 1
+                if y2 == maprow:
+                    y2 = y2 - 1
+
+                pt1 = (x1, y1, image[x1, y1])
+                pt2 = (x1, y2, image[x1, y2])
+                pt3 = (x2, y1, image[x2, y1])
+                pt4 = (x2, y2, image[x2, y2])
+                unknown = (mapcol, maprow, output[col, row])
+                output[row,col] = bi.bilinear_interpolation(pt1,pt2,pt3,pt4,unknown)
 
         return output
+
+
+
