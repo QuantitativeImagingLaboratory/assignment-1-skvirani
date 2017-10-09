@@ -12,9 +12,13 @@ class interpolation:
         #pt1,pt2,unknown hold two pieces of data, first we have the coordinate and second we have the intensity of the pixel
         #returns the intensity of the pixel
         #formula from lecture notes of linear interpolation
-        unknown[1] = (pt1[1]*(pt2[0]-unknown[0]))/(pt2[0]-pt1[0]) + (pt2[1]*(unknown[0]-pt1[0]))/(pt2[0]-pt1[0])
+        if unknown[0] == pt1[0]:
+            unknown[1] = pt1[1]
+        if unknown[0] == pt2[0]:
+            unknown[1] = pt2[1]
+        intensity = (pt1[1] * (pt2[0] - unknown[0])) / (pt2[0] - pt1[0]) + (pt2[1] * (unknown[0] - pt1[0])) / ( pt2[0] - pt1[0])
 
-        return unknown[1]
+        return intensity
 
     def bilinear_interpolation(self, pt1, pt2, pt3, pt4, unknown):
         """Computes the linear interpolation for the unknown values using pt1 and pt2

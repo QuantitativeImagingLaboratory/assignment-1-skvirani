@@ -76,10 +76,10 @@ class resample:
             for row in range(output .shape[1]):
                 mapcol = col * hratio
                 maprow = row * wratio
-                x1 = math.floor(hratio)
-                x2 = math.ceil(hratio)
-                y1 = math.floor(wratio)
-                y2 = math.ceil(wratio)
+                x1 = math.floor(mapcol)
+                x2 = math.ceil(maprow)
+                y1 = math.floor(mapcol)
+                y2 = math.ceil(maprow)
 
                 if x1 == mapcol:
                     x1 = x1 - 1
