@@ -77,17 +77,18 @@ class resample:
                 mapcol = col * hratio
                 maprow = row * wratio
                 x1 = math.floor(mapcol)
-                x2 = math.ceil(maprow)
-                y1 = math.floor(mapcol)
+                x2 = math.ceil(mapcol)
+                y1 = math.floor(maprow)
                 y2 = math.ceil(maprow)
 
-                if x1 == mapcol:
+
+                if x1 == height:
                     x1 = x1 - 1
-                if x2 == mapcol:
+                if x2 == height:
                     x2 = x2 - 1
-                if y1 == maprow:
+                if y1 == width:
                     y1 = y1 - 1
-                if y2 == maprow:
+                if y2 == width:
                     y2 = y2 - 1
 
                 pt1 = (x1, y1, image[x1, y1])
@@ -95,7 +96,11 @@ class resample:
                 pt3 = (x2, y1, image[x2, y1])
                 pt4 = (x2, y2, image[x2, y2])
                 unknown = (mapcol, maprow, output[col, row])
-                output[row,col] = bi.bilinear_interpolation(pt1,pt2,pt3,pt4,unknown)
+
+                if x1 == x2 and y1 == y2:
+                    output[col,row] = image[int(mapcol), int(maprow)]
+                else:
+                    output[col,row] = bi.bilinear_interpolation(pt1,pt2,pt3,pt4,unknown)
 
         return output
 
